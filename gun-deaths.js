@@ -8,13 +8,26 @@ $(function(){
 	var INACTIVE_MARKER_STYLE = {color:'#660033',fillOpacity:0.7};
 	var MAP_ID = 'map-54m1dlce';
 
-	window.victims.forEach((victim) => {
+	const VICTIMS = window.victims;
+	const LOCATIONS = window.gunDeathsLocations;
+
+	L.TileLayer.Common = L.TileLayer.extend({
+		initialize: function (options) {
+			L.TileLayer.prototype.initialize.call(this, this.url, options);
+		}
+	});
+	L.TileLayer.MapBox = L.TileLayer.Common.extend({
+		url: 'http://{s}.tiles.mapbox.com/v3/{user}.{map}/{z}/{x}/{y}.png'
+	});
+
+	VICTIMS.forEach((victim) => {
 		victim.dateObj = parseYYYYMMDD(victim.date);
+		victim.cityLowercase = victim.city.toLowerCase();
+		victim.stateLowercase = victim.state.toLowerCase();
 	});
 
 	function Interactive(){
-		var self = this;
-		// this.map = new DeathsMap(this);
+		this.map = new DeathsMap(this);
 		this.criteria = {};
 		this.victims_container = $('#victims');
 		this.victims_wrapper = $('#victims_wrapper');
@@ -23,7 +36,7 @@ $(function(){
 			.updateIncidents()
 			.addEventListeners()
 			.addCriteriaListeners();
-		this.tooltip = new Tooltip($('#tooltip'),this);
+		this.tooltip = new Tooltip($('#tooltip'), this);
 	}
 	Interactive.prototype.clearIncidents = function(){
 		this.victims_container.empty();
@@ -36,7 +49,7 @@ $(function(){
 			.clearIncidents()
 			.loadingSignal(true)
 			.dataHandler
-				.getVictimsData(this.criteria,function(data){
+				.getVictimsData(this.criteria, function(data){
 					self
 						.printIncidents(data)
 						.loadingSignal(false);
@@ -64,7 +77,7 @@ $(function(){
 				}
 				last_printed_data = incident.prop.date;
 				last_printed_phase = incident.phase;
-				if(incident.prop.isNewtown==='0'){
+				if(incident.prop.isNewtown === false){
 					incidents_not_newtown++;
 				}
 			}
@@ -81,6 +94,7 @@ $(function(){
 		var self = this;
 		this.victims_container.on('click','.victim',incidentClicked);
 		$('#btn_methodology').click(showMethodology);
+
 		function incidentClicked(){
 			if(self.activeVictimObj){
 				self.activeVictimObj.removeClass('active');
@@ -102,6 +116,7 @@ $(function(){
 				});
 			}
 		}
+
 		function showMethodology(){
 			$('#methodology')
 				.show();
@@ -168,6 +183,7 @@ $(function(){
 		});
 		sizeMap();
 	}
+	
 	function Tooltip(obj,parent){
 		this.obj = obj;
 		this.par = parent;
@@ -268,8 +284,8 @@ $(function(){
 		function setLocation(){
 			var par = self.par;
 			par.clearCriteria();
-			par.criteria['city'] = data.city;
-			par.criteria['state'] = data.state;
+			par.criteria.city = data.city;
+			par.criteria.state = data.state;
 			$('#btn_location a').html(data.city+', '+data.state);
 			$('#icity').val(data.city);
 			$('#istate').val(data.state);
@@ -409,22 +425,13 @@ $(function(){
 		});
 	}
 	DeathsMap.prototype.getData = function(callback){
-		$.ajax({
-			dataType:'json',
-			url:GET_MAP_DATA_URL,
-			success:function(data){
-				if(callback){callback(data);}
-			},
-			error:function(){
-				alert('problem');
-			}
-		});
+		callback(LOCATIONS);
 	};
 	DeathsMap.prototype.printMarkers = function(mapData){
 		var self = this;
 		for(var i=mapData.length-1;i>-1;i--){
 			var data = mapData[i];
-			var radius = Math.max(3,Math.sqrt(data['count(*)']*10/Math.PI));
+			var radius = Math.max(3,Math.sqrt(data.count*10/Math.PI));
 			if(data.lat!==null&&data.lng!==null){
 				var marker = new L.CircleMarker([data.lat,data.lng],{weight:1,color:'#660033',fillOpacity:0.7,radius:radius})
 					.addTo(this.m)
@@ -442,8 +449,8 @@ $(function(){
 			if(self.activeMarker==this){
 				self.activeMarker.setStyle(INACTIVE_MARKER_STYLE);
 				delete self.activeMarker;
-				delete self.par.criteria.lat;
-				delete self.par.criteria.lng;
+				delete self.par.criteria.city;
+				delete self.par.criteria.state;
 				this.active = false;
 				self.par.updateIncidents();
 				self.par.emptyFilter('location');
@@ -459,8 +466,8 @@ $(function(){
 				self.activeMarker  = this;
 				this.active = true;
 				this.setStyle(ACTIVE_MAKER_STYLE);
-				self.par.criteria.lat = this._latlng.lat;
-				self.par.criteria.lng = this._latlng.lng;
+				self.par.criteria.city = this.city;
+				self.par.criteria.state = this.state;
 				self.par.updateIncidents();
 			}
 		}
@@ -493,8 +500,7 @@ $(function(){
 		this.par = parent;
 	}
 	DataHandler.prototype.getVictimsData = function(criteria,callback){
-		if (!criteria) callback(window.victims);
-		console.log(criteria);
+		if (!criteria) callback(VICTIMS);
 
 		const criteriaFncs = [];
 
@@ -506,19 +512,32 @@ $(function(){
 		}
 		if (criteria.minDate) {
 			const parsed = parseDate(criteria.minDate);
-			console.log(parsed);
 			criteriaFncs.push(victim => victim.dateObj >= parsed);
 		}
+
+		if (criteria.city) {
+			const formattedCity = criteria.city.toLowerCase().trim();
+			criteriaFncs.push(victim => victim.cityLowercase === formattedCity);
+		}
+
+		if (criteria.state) {
+			const formattedState = criteria.state.toLowerCase().trim();
+			criteriaFncs.push(victim => victim.stateLowercase === formattedState	);
+		}
+
 		if (criteria.maxDate) {
 			const parsed = parseDate(criteria.maxDate);
 			parsed.setHours(23);
 			parsed.setMinutes(59);
 			criteriaFncs.push(victim => victim.dateObj <= parsed);
 		}
-		callback(window.victims.filter((victim) => criteriaFncs.every(fnc => fnc(victim))));
+
+		console.log(criteria);
+
+		callback(VICTIMS.filter((victim) => criteriaFncs.every(fnc => fnc(victim))));
 	};
 	DataHandler.prototype.getDataOnVictim = function(victimID,callback){
-		callback(window.victims.find((victim => victim.victimID === victimID)));
+		callback(VICTIMS.find((victim => victim.victimID === victimID)));
 	};
 	DataHandler.prototype.makeRequest = function(URL,callback){
 		URL+='&callback=?';
@@ -596,7 +615,7 @@ $(function(){
 							removeLocationFilter();
 						}
 						if(city!==''){
-							self.criteria['city']=[city];
+							self.criteria['city']=city;
 							labelString+=city;
 							if(state!==''){
 								labelString+=', ';
@@ -607,7 +626,7 @@ $(function(){
 							delete self.criteria['city'];
 						}
 						if(state!==''){
-							self.criteria['state']=[state];
+							self.criteria['state']=state;
 							labelString+=state;
 							removeActiveMapMarker();
 						}
@@ -829,15 +848,6 @@ $(function(){
 		var lngAdjustment = pixelAdjustment * pointsPerPixel; //number of longitudinal points to be shifted
 		return lng -= lngAdjustment;
 	}
-
-	L.TileLayer.Common = L.TileLayer.extend({
-		initialize: function (options) {
-			L.TileLayer.prototype.initialize.call(this, this.url, options);
-		}
-	});
-	L.TileLayer.MapBox = L.TileLayer.Common.extend({
-		url: 'http://{s}.tiles.mapbox.com/v3/{user}.{map}/{z}/{x}/{y}.png'
-	});
 
 	function retrieveDomain(urlString) {
 		var secondSlash = urlString.search('//') + 2;
