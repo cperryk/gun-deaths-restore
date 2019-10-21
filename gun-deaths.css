@@ -1,0 +1,484 @@
+#interactive, #btn_minimize{
+    font-family:'verdana',sans-serif;
+}
+#interactive{
+    width:1038px;
+    margin-top:10px 0 10px 0;
+    float:left;
+    margin-left:auto;
+    margin-right:auto;
+    position:relative;
+}
+#interactive p{
+    line-height:normal;
+}
+/*** Victims ***/
+#victims{
+    position:relative;
+    width:100%;
+    float:left;
+    padding:10px 0 10px 0;
+}
+.victim_row{
+    float:left;
+    width:100%;
+    height:45px;
+    padding-bottom:5px;
+    position:relative;
+}
+.row_date{
+    position:absolute;
+    width:10px;
+    height:8px;
+    font-size:7px;
+    line-height:9px;
+    text-align:center;
+    width:24px;
+    border-top-right-radius:3px;
+    border-top-left-radius:3px;
+    border-top:1px solid #e8e8e8;
+    border-right:1px solid #e8e8e8;
+    border-left:1px solid #e8e8e8;
+}
+.row_date.newtown{
+    width:45px;
+}
+.victim{
+    border-right:1px solid #e8e8e8;
+    border-top:1px solid #e8e8e8;
+    border-bottom:1px solid #e8e8e8;
+    float:left;
+    width:24px;
+    margin-top:8px;
+    margin-right:0px;
+    height:34px;
+    cursor:pointer;
+    background:url(graphics/victims.png) no-repeat;
+    background-position:0px;
+}
+
+.victim.leftmost{
+    border-left:1px solid #e8e8e8;
+}
+.victim:active{
+    position:relative;
+    top:1px;
+}
+.victim.active{
+    background-position:-300px;
+}
+/*male adult*/
+.victim.age3.male{
+    background-position:0px;
+}
+.victim.age3.male:hover{
+    background-position:-150px;
+}
+.victim.age3.male.active{
+    background-position:-300px;
+}
+
+/*female adult*/
+.victim.age3.female{
+    background-position:-25px;
+}
+.victim.age3.female:hover{
+    background-position:-175px;
+}
+.victim.age3.female.active{
+    background-position:-325px;
+}
+
+/*male teen*/
+.victim.age2.male{
+    background-position:-50px;
+}
+.victim.age2.male:hover{
+    background-position:-200px;
+}
+.victim.age2.active{
+    background-position:-350px;
+}
+
+/*female teen*/
+.victim.age2.female{
+    background-position:-75px;
+}
+.victim.age2.female:hover{
+    background-position:-225px;
+}
+.victim.age2.female.active{
+    background-position:-375px;
+}
+
+/*male child */
+.victim.age1.male{
+    background-position:-100px;
+}
+.victim.age1.male:hover{
+    background-position:-250px;
+}
+.victim.age1.male.active{
+    background-position:-400px;
+}
+
+/*female child*/
+.victim.age1.female{
+    background-position:-125px;
+}
+.victim.age1.female:hover{
+    background-position:-275px;
+}
+.victim.age1.female.active{
+    background-position:-425px;
+}
+
+.victim.datehover{
+    background-color:#ffffd6;
+}
+.victim.even,.row_date.even{
+    background-color:#ffffd6;
+}
+.victim.odd,.row_date.odd{
+    background-color:#d6e5ff;
+}
+.victim.newtown,.row_date.newtown{
+    background-color:#d6ffe4;
+}
+#name_here{
+    font-weight:bold;
+}
+#loading{
+    width:250px;
+    margin:20px 0px 20px 0px;
+    float:left;
+    line-height:32px;
+    text-align:center;
+    width:1038px;
+}
+#loading img{
+    margin-right:10px;
+    vertical-align: middle;
+}
+#btns{
+    width:500px;
+    border-bottom:1px solid gray;
+    display:none;
+    height:15px;
+}
+.btn,.btnLabel{
+    font-size:10px;
+    line-height:normal;
+    float:left;
+    margin-left:4px;
+    text-transform: uppercase;
+}
+.btn{
+    color:#c2c2c2;
+    cursor:pointer;
+}
+.btn.selected{
+    color:#57828d;
+}
+#btngroupGender{
+    border-left:1px solid gray;
+}
+.btngroup{
+    border-right:1px solid gray;
+    border-top:1px solid gray;
+    padding-right:5px;
+    float:right;
+}
+
+/*********MAP**********/
+#mapContainer{
+    width:1036px;
+    border:1px solid #e7e7e7;
+    height:400px;
+    float:right;
+}
+#mapInstructions{
+    text-align:left;
+    font-size:10px;
+    margin-bottom:3px;
+    font-weight:normal;
+}
+#mapContainer h4{
+    line-height:normal;
+    margin:0 0 10px 0;
+    font-size:16px;
+    line-height:normal;
+    font-weight:bold;
+}
+.leaflet-container{
+    background-color:white !important;
+}
+#map_explanation{
+    margin:0px;
+    font-size:11px;
+    background:rgb(255,255,255);
+    background:rgba(255,255,255,0.9);
+    padding:5px;
+    position:absolute;
+    z-index:10;
+}
+#map_attribution{
+    bottom:0px;
+    right:0px;
+    position:absolute;
+    font-size:10px;
+    background:rgba(255,255,255,0.8);
+    z-index:9;
+    padding:3px;
+    margin:0px;
+}
+
+
+
+
+/*******TOOLTIP********/
+#branch{
+    height:250px;
+    width:1038px;
+    float:left;
+    display:none;
+    position:relative;
+    margin-bottom:10px;
+}
+
+#arrow{
+    position:absolute;
+    left:0px;
+    top:0px;
+    height:10px;
+    width:19px;
+    background:url(graphics/little_arrow.png) no-repeat;
+    z-index:2;
+}
+#floater{
+    position:absolute;
+    width:500px;
+    height:220px;
+    border:1px solid #BDBEC0;
+    top:9px;
+}
+#floater #textArea{
+    min-height:200px;
+    font-size:12px;
+    position:absolute;
+    z-index:10;
+    top:0px;
+    padding:10px;
+    left:0px;
+    width:230px;
+    padding-bottom:20px;
+    background-color:rgba(255,255,255,0.9);
+}
+#miniMap{
+    background-color:gray;
+    width:500px;
+    height:100%;
+    position:absolute;
+    left:0px;
+    top:0px;
+}
+.victim_information_p{
+    margin:10px 0 10px 0;
+    line-height:120%;
+}
+#textAreaInner a{
+    font-size:8px;
+    font-weight:normal;
+}
+
+#linkp{
+    text-align:right;
+    position:absolute;
+    bottom:10px;
+    right:10px;
+    line-height:100%;
+    margin:0px;
+    font-size:9px;
+}
+.leaflet-popup-content p {
+margin: 0 0 0 0;
+font-size:11px;
+}
+.leaflet-popup-close-button {
+background: none;
+}
+.leaflet-popup-content-wrapper {
+-moz-border-radius: 10px;
+-webkit-border-radius: 10px;
+border-radius: 10px;
+}
+.leaflet-popup-content {
+margin: 15px;
+}
+#p_methodology{
+    cursor:pointer;
+    text-align:right;
+    font-size:12px;
+    float:left;
+    text-align:center;
+    margin:10px 0 0 0;
+    border-top:1px solid #e8e8e8;
+    width:1038px;
+    padding-top:10px;
+}
+#methodology{
+    font-size:12px;
+    width:1038px;
+    float:left;
+    display:none;
+    border-bottom:1px solid gray;
+}
+#count{
+    float:left;
+    font-size:20px;
+    text-align:center;
+}
+#count_here{
+    font-size:2em;
+    font-weight:bold;
+}
+#btn_maximize,#btn_minimize{
+    color:#660033;
+    cursor:pointer;
+    font-size:11px;
+    text-align:right;
+}
+#btn_minimize{
+    position:fixed;
+    right:0px;
+    bottom:0px;
+    padding:5px;
+    background-color:rgb(255,255,255);
+    background-color:rgba(255,255,255,.8);
+}
+.tooltip_filter{
+    color:red;
+    cursor:pointer;
+}
+.tooltip_filter:hover{
+    text-decoration: underline;    
+}
+#location_here,#date_here{
+    color:red;
+    cursor:pointer;
+}
+
+/******** filters *******/
+#filters{
+    float:left;
+    margin-top:5px;
+    height:30px;
+    width:1038px;
+}
+.filterHead{
+    float:left;
+    position:relative;
+    color:#777;
+    font-size:12px;
+    cursor:pointer;
+    margin-right:10px;
+    padding-right:10px;
+    width:130px;
+    border:1px solid #e3e3e3;
+    padding:5px;
+}
+.filterHead:hover{
+    border:1px solid #d1d1d1;
+}
+.filterHead:active{
+    position:relative;
+    top:1px;
+}
+.filterHead a{
+    color:#777;
+}
+.filterBox{
+    box-shadow: 2px 2px 2px #f0f0f0;
+    color:#777;
+    border:1px solid gray;
+    display:none;
+    position:absolute;
+    z-index:99999;
+    background-color:white;
+    min-width:110px;
+}
+    .filterBox ul{
+        list-style: none;
+        margin:0px;
+        padding:0px;
+    }
+    .filterBox li{
+        padding:5px;
+        font-size:11px;
+    }
+    .filterBox li.active{
+        color:#660033;
+    }
+    .filterBox li:hover,.filterBox li.locative.btnok:hover{
+        background-color:#e3e3e3;
+        cursor:pointer;
+    }
+    .filterBox li.ti:hover{
+        background-color:white;
+        cursor:auto;
+    }
+    .filterBox input{
+        width:70px;
+        margin-right:10px;
+    }
+    .filterBox .btnok{
+        text-align:center;
+    }
+.btn_ex{
+    display:none;
+    color:#777;
+    font-size:11px;
+    height:24px;
+    line-height:24px;
+    margin-right:1px;
+    float:left;
+    cursor:pointer;
+}
+.btn_ex:hover{
+    color:blue;
+}
+.dwnarw {
+    border-color: #909090 transparent;
+    border-style: solid;
+    border-width: 4px 4px 0 4px;
+    width: 0;
+    height: 0;
+    margin-left: -2px;
+    top: 50%;
+    right:5px;
+    margin-top: -2px;
+    position: absolute;
+}
+.meterCount{
+    width:30px;
+    color:gray;
+    text-align:left;
+    font-size:8px;
+    background-color:white;
+    line-height:50px;
+    margin-left:5px;
+    float:left;
+}
+.filterHead{
+   -moz-user-select: -moz-none;
+   -khtml-user-select: none;
+   -webkit-user-select: none;
+   -ms-user-select: none;
+   user-select: none;
+}
+#victim_cats{
+    border-top:1px solid #c7c7c7;
+    margin-top:10px;
+    border-bottom:1px solid #c7c7c7;
+    margin-bottom: 10px;
+}
