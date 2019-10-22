@@ -7,17 +7,41 @@
 <!-- paste into RenderHTML-->
 <!-- KIRK TEST -->
 
-<script type="text/javascript" src="http://slate.com/features/2013/lib/leaflet-0.6.3/leaflet.js"></script>
+<script type="text/javascript" src="lib/leaflet/leaflet-0.6.3.js"></script>
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"
   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="http://slate.com/features/2013/lib/leaflet-0.6.3/leaflet.css" />
+<link rel="stylesheet" href="lib/leaflet/leaflet.css" />
 <link rel="stylesheet" href="gun-deaths.css" />
 <script type="text/javascript" src="data/victims.js"></script>
-<script type="text/javascript" src="data/locations.js"></script>
 <script type="text/javascript" src="gun-deaths.js"></script>
+<script type="text/javascript" src="data/locations.js"></script>
+  
+<section class="intro">
+  <h1>A Year of Gun Deaths</h1>
 
+  <p>
+    This is a restoration of <i>Slate</i>'s <a href="http://www.slate.com/articles/news_and_politics/crime/2012/12/gun_death_tally_every_american_gun_death_since_newtown_sandy_hook_shooting.html">Gun Deaths</a> project, which tracked, aggregated, and visualized gun deaths from the 2012 mass shooting of Newtown to the end of the following year.
+    A team of volunteers gathered the data shown below from thousands of news articles and public sources.
+        For more, see the <a
+          href="http://www.slate.com/articles/news_and_politics/crime/2012/12/gun_death_tally_every_american_gun_death_since_newtown_sandy_hook_shooting.html">original
+          article</a> on <i>Slate</i>.
+  </p>
+
+  <p>
+    As <i>Slate</i>'s website has evolved, many old interactive projects became broken, and fixing them all is infeasible.
+    I've restored this one because I think the information is important.
+    To ensure it endures, this version does not rely on a server to serve up and filter the data.
+    Note that many links to source articles are broken or the articles now sit behind paywalls.
+  </p>
+
+  <p class="signature">
+    – Chris Kirk, former Interactives Editor of Slate.com
+  </p>
+</section>
+  
 
 <div id="interactive">
+
   <div id="tooltip">
     <div id="branch">
       <div id="arrow"></div>
@@ -31,8 +55,6 @@
             <p class="victim_information_p" id="tooltip_age">Age: <span id="age_here"></span></p>
             <p class="victim_information_p">Source: <a id="source_here" target="_blank"></a></p>
             <div id="victim_cats"></div>
-            <p id="linkp"><a target="_blank" id="btn_categorize_incident">Categorize</a> | <a target="_blank"
-                id="btn_reportError">Report Error / Additional Info</a></p>
           </div>
         </div>
         <div id="miniMap">
@@ -123,8 +145,8 @@
     </div>
   </div>
   <!--end days-->
-  <p id="p_methodology"><span id="btn_methodology">Show Methodology</span></p>
   <div id="methodology">
+    <h2>Methodology</h2>
     <p>Each person under 13 years of age is designated "child"; from 13 to 17: "teen"; 18 and older: "adult."</p>
     <p>The same icons used to represent males is also used to represent individuals of unknown gender. The same icons
       used to represent adults is also used to represent people of unknown age group.</p>

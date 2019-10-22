@@ -24,6 +24,7 @@ $(function(){
 		victim.dateObj = parseYYYYMMDD(victim.date);
 		victim.cityLowercase = victim.city.toLowerCase();
 		victim.stateLowercase = victim.state.toLowerCase();
+		victim.nameLowercase = victim.name.toLowerCase();
 	});
 
 	function Interactive(){
@@ -216,7 +217,7 @@ $(function(){
 	};
 	Tooltip.prototype.printData = function(data){
 		this.mapContainer.show();
-		// this.setMiniMap(data);
+		this.setMiniMap(data);
 		var self = this;
 		if(data.name===''){
 			$('#tooltip_name').hide();
@@ -530,6 +531,14 @@ $(function(){
 			parsed.setHours(23);
 			parsed.setMinutes(59);
 			criteriaFncs.push(victim => victim.dateObj <= parsed);
+		}
+
+		if (criteria.keyword) {
+			const formattedKeyword = criteria.keyword.toLowerCase();
+			criteriaFncs.push(victim => 
+				victim.cityLowercase.includes(formattedKeyword) ||
+				victim.nameLowercase.includes(formattedKeyword)
+			)
 		}
 
 		console.log(criteria);

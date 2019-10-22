@@ -1,10 +1,24 @@
-#interactive, #btn_minimize{
+body {
     font-family:'verdana',sans-serif;
 }
+
+h1 {
+    font-size: 3em;
+}
+
+.intro {
+    line-height: 1.5em;
+    width: 1038px;
+    margin: 0 auto 2em auto;
+}
+
+.signature {
+    text-align: right;
+}
+
 #interactive{
     width:1038px;
     margin: 10px auto;
-    position:relative;
 }
 #interactive p{
     line-height:normal;
@@ -324,10 +338,9 @@ margin: 15px;
     padding-top:10px;
 }
 #methodology{
+    float: left;
     font-size:12px;
     width:1038px;
-    float:left;
-    display:none;
     border-bottom:1px solid gray;
 }
 #count{
